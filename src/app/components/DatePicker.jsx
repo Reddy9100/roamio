@@ -1,12 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { Calendar } from "@/components/ui/calendar"; 
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"; 
-import { Button } from "@/components/ui/button"; 
+import { Calendar } from "../../components/ui/calendar"; 
+import { Popover, PopoverTrigger, PopoverContent } from "../../components/ui/popover"; 
+import { Button } from "../../components/ui/button"; 
 import { format } from "date-fns";
 
-export function DatePickerDemo() {
+export function DatePicker() {
   const [date, setDate] = React.useState(undefined); 
 
   const handleDateSelect = (selectedDate) => { 

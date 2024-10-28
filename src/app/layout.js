@@ -1,7 +1,7 @@
 // src/app/layout.js
 import './globals.css'; // Import global styles
-import NavBar from "@/app/components/NavBar"
-import Footer from "@/app/components/Footer"
+import NavBar from "../app/components/NavBar"
+import Footer from "../app/components/Footer"
 
 const RootLayout = ({ children }) => {
   return (

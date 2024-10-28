@@ -4,10 +4,10 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-  } from "@/components/ui/select"
+  } from "../../components/ui/select"
 import React from 'react'
 
-const SelectOption = () => {
+ export const SelectOption = () => {
   return (
     <div>
         <Select>
@@ -25,4 +25,3 @@ const SelectOption = () => {
   )
 }
 
-export default SelectOption
