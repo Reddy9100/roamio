@@ -13,7 +13,7 @@ const BookingPage = () => {
         router.push('/Results')
     }
   return (
-    <div className='bg-gray-100 min-h-screen flex justify-center items-center'>
+    <div className='bg-white min-h-screen flex justify-center items-center'>
       <div className='bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl'>
         <h1 className='text-3xl font-bold text-purple-600 mb-6 text-center'>
           Book Your Ride
@@ -53,17 +53,17 @@ const BookingPage = () => {
           Search Vehicles
         </button>
 
-        {/* Additional Informational Text */}
+                {/* Additional Informational Text */}
         <div className='mt-6 text-center'>
           <p className='text-lg text-gray-700 mb-2'>
-            🚗 Your journey starts here! 
+            Your journey starts here!
           </p>
           <p className='text-gray-500'>
-            Whether you're heading to a business meeting or planning a weekend getaway, 
+            Whether you&apos;re heading to a business meeting or planning a weekend getaway, 
             we have the perfect vehicle for you. Book your ride today and enjoy a smooth experience!
           </p>
           <p className='text-gray-500 mt-2'>
-            Don't forget to check our special offers and discounts available for early bookings!
+            Don&apos;t forget to check our special offers and discounts available for early bookings!
           </p>
         </div>
       </div>

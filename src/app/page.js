@@ -1,11 +1,12 @@
-import React from 'react'
-import DashBoard from "../app/DashBoard/page"
-const page = () => {
+import React from "react";
+import DashBoard from "./DashBoard/page";
+
+const Page = () => {
   return (
     <div>
-      <DashBoard/>
+      <DashBoard />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default Page;

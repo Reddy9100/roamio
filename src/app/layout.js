@@ -1,9 +1,16 @@
 // src/app/layout.js
-import './globals.css'; // Import global styles
-import NavBar from "../app/components/NavBar"
-import Footer from "../app/components/Footer"
+"use client";
+
+import './globals.css'; 
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
+import { usePathname } from 'next/navigation';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const RootLayout = ({ children }) => {
+  const router = usePathname();
+  const isLoginPage = router === "/Login";
+
   return (
     <html lang="en">
       <head>
@@ -11,9 +18,9 @@ const RootLayout = ({ children }) => {
         <meta name="description" content="My Next.js application description" />
       </head>
       <body>
-        <NavBar/>
-        {children}
-        <Footer/>
+        {!isLoginPage && <NavBar />} 
+        <ProtectedRoute>{children}</ProtectedRoute> 
+        {!isLoginPage && <Footer />} 
       </body>
     </html>
   );
