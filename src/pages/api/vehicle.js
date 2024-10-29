@@ -1,6 +1,6 @@
 // pages/api/vehicles.js
 import { connectDB } from '../../config/dbConfig';
-import { getVehicles, addVehicle } from '../../controllers/vehicleController';
+import { getVehicles, addVehicle } from '../../controllers/vehicle';
 
 export default async function handler(req, res) {
     await connectDB(); 
