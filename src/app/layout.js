@@ -6,6 +6,7 @@ import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import { usePathname } from 'next/navigation';
 import ProtectedRoute from './components/ProtectedRoute';
+import { CarsProvider } from '../context/CarsContext'; // Adjust the import path as necessary
 
 const RootLayout = ({ children }) => {
   const router = usePathname();
@@ -18,9 +19,11 @@ const RootLayout = ({ children }) => {
         <meta name="description" content="My Next.js application description" />
       </head>
       <body>
-        {!isLoginPage && <NavBar />} 
-        <ProtectedRoute>{children}</ProtectedRoute> 
-        {!isLoginPage && <Footer />} 
+        <CarsProvider>
+          {!isLoginPage && <NavBar />} 
+          <ProtectedRoute>{children}</ProtectedRoute> 
+          {!isLoginPage && <Footer />} 
+        </CarsProvider>
       </body>
     </html>
   );
