@@ -9,12 +9,12 @@ export default NextAuth({
     }),
   ],
   pages: {
-    signIn: '/Login', 
+    signIn: '/Login',
   },
   callbacks: {
     async redirect({ url, baseUrl }) {
-      
       return baseUrl;
     },
   },
+  secret: process.env.NEXTAUTH_SECRET, // Add this line
 });
