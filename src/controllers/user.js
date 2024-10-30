@@ -42,7 +42,7 @@ export const addUser = async (userData) => {
 // Function to send OTP email
 export const sendOtpEmail = async (name, email, otp) => {
     try {
-      const emailTemplatePath = path.join(__dirname, '../views/otpEmail.ejs');
+      const emailTemplatePath = path.resolve(process.cwd(), 'src/views/otpEmail.ejs');
       const htmlContent = await ejs.renderFile(emailTemplatePath, { name, otp });
   
       const mailOptions = {
