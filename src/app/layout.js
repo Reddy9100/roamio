@@ -6,7 +6,7 @@ import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import { usePathname } from 'next/navigation';
 import ProtectedRoute from './components/ProtectedRoute';
-import { CarsProvider } from '../context/CarsContext'; // Adjust the import path as necessary
+import { CarsProvider } from '../context/cars'; // Adjust the import path as necessary
 
 const RootLayout = ({ children }) => {
   const router = usePathname();
