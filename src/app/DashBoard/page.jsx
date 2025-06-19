@@ -1,13 +1,26 @@
 "use client"
-
-import React, { useEffect, useState } from 'react';
-
-import { LineChart, PieChart } from 'lucide-react';
-import Link from "next/link";
-import { Pie, LineChart as ReLineChart, Line, Tooltip, ResponsiveContainer, Cell, PieChart as RePieChart, XAxis } from 'recharts';
-import { Card, CardContent } from '@/components/ui/card';
-import Lottie from 'lottie-react';
-import Cookie from 'js-cookie';
+import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
+import Cookie from 'js-cookie'
+import Lottie from 'lottie-react'
+import { Gauge, LineChart, PieChart, Gauge as SpeedometerIcon ,Smile,
+  Meh,
+  Frown,} from 'lucide-react'
+import {
+  RadialBarChart,
+  RadialBar,
+  PolarAngleAxis,
+  Tooltip as ReTooltip,
+  Pie,
+  LineChart as ReLineChart,
+  Line,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+  PieChart as RePieChart,
+  XAxis,
+} from 'recharts'
+import { Card, CardContent } from '@/components/ui/card'
 
 const lineData = [
   { name: 'Mon', amount: 220 },
@@ -44,6 +57,7 @@ const lineData = [
 ];
 
 
+
 const pieData = [
   { name: 'Food', value: 400 },
   { name: 'Travel', value: 300 },
@@ -51,9 +65,25 @@ const pieData = [
   { name: 'Entertainment', value: 200 },
 ];
 
+const budgetLimit = 10000
+const spentAmount = 9800
+const percentageUsed = (spentAmount / budgetLimit) * 100
+
+const MoodIcon = () => {
+  if (percentageUsed > 90) return <Frown className="w-5 h-5 text-red-700" />
+  if (percentageUsed > 50) return <Meh   className="w-5 h-5 text-yellow-700" />
+  return <Smile className="w-5 h-5 text-green-900" />
+}
+
 const moneyAnimation = require("../../../public/animation/hello.json");
 
 
+const gaugeColor =
+  percentageUsed > 90
+    ? '#EF4444'
+    : percentageUsed > 50
+    ? '#F59E0B'
+    : '#10B981'
 
 const COLORS = ['#10B981', '#6366F1', '#F59E0B', '#EF4444'];
 
@@ -110,6 +140,8 @@ const DashboardPage = () => {
    </div>
     ) : (
       <div className="p-6 pb-[120px] md:p-8 space-y-6">
+
+        
      
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -130,6 +162,60 @@ const DashboardPage = () => {
           <p className="text-lg font-bold text-gray-900">4</p>
         </Card>
       </div>
+
+      <div>
+
+       <Card className="rounded-2xl shadow-md">
+              <CardContent className="p-4">
+              <h2 className="flex  items-center gap-2 text-lg font-semibold text-gray-700 mb-2">
+          <Gauge className="w-5 h-5 text-red-500" />
+          Budget Usage
+          <MoodIcon className="ml-4"/>
+        </h2>
+                <ResponsiveContainer width="100%" height={200}>
+                  <RadialBarChart
+                    cx="50%"
+                    cy="80%"
+                    innerRadius="60%"
+                    outerRadius="100%"
+                    startAngle={180}
+                    endAngle={0}
+                    data={[{ value: percentageUsed }]}
+                  >
+                    <PolarAngleAxis
+                      type="number"
+                      domain={[0, 100]}
+                      tick={false}
+                    />
+                    <RadialBar
+                      minAngle={15}
+                      background
+                      clockWise={false}
+                      dataKey="value"
+                      fill={gaugeColor}
+                    >
+                     
+                    </RadialBar>
+                    <ReTooltip
+                      formatter={(v) => `${v.toFixed(1)}%`}
+                    />
+                  </RadialBarChart>
+                </ResponsiveContainer>
+               {/* wrap in a top border for separation */}
+<div className="mt-6 border-t border-gray-200 pt-4">
+  <p className="text-center text-sm text-gray-700">
+    <span className="font-semibold text-black">₹{spentAmount}</span>
+    <span className="mx-1 text-red-900">/</span>
+    <span className="font-semibold text-green-800">₹{budgetLimit}</span>
+    <span className="ml-2 uppercase tracking-wide font-semibold text-red-600">
+      used
+    </span>
+  </p>
+</div>
+
+              </CardContent>
+            </Card>
+</div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Line Chart */}
