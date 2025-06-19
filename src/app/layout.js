@@ -1,53 +1,31 @@
-// src/app/layout.js
-"use client";
-
-import './globals.css'; 
-import NavBar from "./components/NavBar";
-import Footer from "./components/Footer";
-import { usePathname } from 'next/navigation';
-import ProtectedRoute from './components/ProtectedRoute';
-import { CarsProvider } from '../context/cars'; // Adjust the import path as necessary
-import { Inter, Inter_Tight, Roboto_Mono, } from 'next/font/google';
-import BottomNavBar from './components/Footer';
+// app/layout.js
+import './globals.css';
+import { Inter, Roboto_Mono } from 'next/font/google';
 import { Toaster } from '@/components/ui/toaster';
+import { CarsProvider } from '../context/cars';
+import { Suspense } from 'react';
+import LayoutClient from '../components/ui/LayoutClient';
 
 
-const inter = Inter_Tight({
-  subsets: ['latin'],
-  variable: '--font-inter',
-});
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const roboto = Roboto_Mono({ subsets: ['latin'], weight: ['400'] });
 
-const poppins = Roboto_Mono({
-  subsets: ['latin'],
-  weight: ['400'],
+export const metadata = {
+  title: 'Money Mate',
+  description: 'Track your monthly expenses easily with Money Mate',
+};
 
-});
-
-
-
-const RootLayout = ({ children }) => {
-  const router = usePathname();
-  const isLoginPage = router === "/Login";
-
-  
-
+export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
-      <head>
-        <title>My Next.js App</title>
-        <meta name="description" content="My Next.js application description" />
-      </head>
-      <body>
+    <html lang="en" className={`${inter.variable} ${roboto.variable}`}>
+      <body className="bg-gray-50">
         <CarsProvider>
-          <Toaster/>
-          
-          {!isLoginPage && <NavBar />} 
-          <ProtectedRoute>{children}</ProtectedRoute> 
-          {!isLoginPage && <BottomNavBar />} 
+          <Toaster />
+          <Suspense fallback={<div>Loading layout...</div>}>
+            <LayoutClient>{children}</LayoutClient>
+          </Suspense>
         </CarsProvider>
       </body>
     </html>
   );
-};
-
-export default RootLayout;
+}
