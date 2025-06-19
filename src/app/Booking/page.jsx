@@ -1,7 +1,6 @@
 "use client";
 
 import React from 'react';
-import { DatePicker } from '../components/DatePicker'; // Adjust the path as needed
 import { SelectOption } from '../components/select';
 import { useRouter } from 'next/navigation';
 
@@ -32,14 +31,14 @@ const BookingPage = () => {
           <div className='w-full mb-4'>
             <label className='block text-sm font-semibold mb-1'>Start Date</label>
             <div className='md:mt-0'>
-              <DatePicker />
+              {/* <DatePicker /> */}
             </div>
           </div>
           
           <div className='w-full mb-4'>
             <label className='block text-sm font-semibold mb-1'>End Date</label>
             <div className='md:mt-0'>
-              <DatePicker />
+              {/* <DatePicker /> */}
             </div>
           </div>
         </div>

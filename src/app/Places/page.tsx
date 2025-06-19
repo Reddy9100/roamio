@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 const Page = () => {
 
     const router = useRouter()
-    const handleOnClick = (city) =>{
+    const handleOnClick = (city:any) =>{
         JSON.stringify(localStorage.setItem("cityName",city))
         router.push('/Booking')
     }
