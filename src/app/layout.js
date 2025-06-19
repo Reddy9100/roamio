@@ -38,6 +38,7 @@ const RootLayout = ({ children }) => {
       </head>
       <body>
         <CarsProvider>
+          
           {/* {!isLoginPage && <NavBar />}  */}
           <ProtectedRoute>{children}</ProtectedRoute> 
           {!isLoginPage && <BottomNavBar />} 

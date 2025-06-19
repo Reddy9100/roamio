@@ -54,7 +54,27 @@ const COLORS = ['#10B981', '#6366F1', '#F59E0B', '#EF4444'];
 const DashboardPage = () => {
   return (
     <div className="p-6 pb-[120px] md:p-8 space-y-6">
-      <h1 className="text-2xl md:text-4xl font-bold text-center text-green-700">MoneyMate Dashboard</h1>
+      <h1 className="text-2xl md:text-4xl font-bold text-left text-green-700">MoneyMate Dashboard</h1>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <Card className="p-4 rounded-xl text-center shadow-md">
+          <h3 className="text-sm font-medium text-gray-500">Total Spent</h3>
+          <p className="text-lg font-bold text-gray-900">₹4,200</p>
+        </Card>
+        <Card className="p-4 rounded-xl text-center shadow-md">
+          <h3 className="text-sm font-medium text-gray-500">This Week</h3>
+          <p className="text-lg font-bold text-gray-900">₹2,150</p>
+        </Card>
+        <Card className="p-4 rounded-xl text-center shadow-md">
+          <h3 className="text-sm font-medium text-gray-500">This Month</h3>
+          <p className="text-lg font-bold text-gray-900">₹7,300</p>
+        </Card>
+        <Card className="p-4 rounded-xl text-center shadow-md">
+          <h3 className="text-sm font-medium text-gray-500">Categories</h3>
+          <p className="text-lg font-bold text-gray-900">4</p>
+        </Card>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Line Chart */}
         <Card className="rounded-2xl shadow-md">
@@ -100,25 +120,7 @@ const DashboardPage = () => {
         </Card>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card className="p-4 rounded-xl text-center shadow-md">
-          <h3 className="text-sm font-medium text-gray-500">Total Spent</h3>
-          <p className="text-lg font-bold text-gray-900">₹4,200</p>
-        </Card>
-        <Card className="p-4 rounded-xl text-center shadow-md">
-          <h3 className="text-sm font-medium text-gray-500">This Week</h3>
-          <p className="text-lg font-bold text-gray-900">₹2,150</p>
-        </Card>
-        <Card className="p-4 rounded-xl text-center shadow-md">
-          <h3 className="text-sm font-medium text-gray-500">This Month</h3>
-          <p className="text-lg font-bold text-gray-900">₹7,300</p>
-        </Card>
-        <Card className="p-4 rounded-xl text-center shadow-md">
-          <h3 className="text-sm font-medium text-gray-500">Categories</h3>
-          <p className="text-lg font-bold text-gray-900">4</p>
-        </Card>
-      </div>
-
+     
       
     </div>
   );

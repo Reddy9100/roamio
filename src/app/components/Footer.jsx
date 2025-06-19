@@ -38,14 +38,15 @@ const BottomNavBar = () => {
   return (
     <>
       {/* Floating Add Expense Drawer */}
-      <Drawer direction="bottom">
+      <Drawer direction="bottom" className="">
         <DrawerTrigger asChild>
           <button className="fixed bottom-24 right-4 transform -translate-x-1/2 z-50 shadow-lg animate-fab-glow bg-green-900 hover:bg-green-600 transition text-white border border-white rounded-[16px] w-16 h-16 flex items-center justify-center">
             <Plus className="w-8 h-8" />
           </button>
         </DrawerTrigger>
 
-        <DrawerContent className="h-full w-full sm:max-w-sm ml-auto bg-white rounded-l-xl p-4 flex flex-col">
+        <DrawerContent className="h-fit fixed w-full sm:max-w-sm ml-auto bg-white rounded-t-xl shadow-lg  px-4 pb-4 flex flex-col">
+        <div className="mx-auto  h-1.5 w-12 rounded-full bg-green-900" />
           <DrawerHeader className="text-left">
             <DrawerTitle className="text-2xl font-extrabold text-green-800">
               💸 Add Expense
