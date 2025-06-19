@@ -1,51 +1,154 @@
-// src/components/Footer.js
+'use client';
+
 import React from 'react';
-import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import {
+  Home,
+  LineChart,
+  Plus,
+  ReceiptText,
+  User,
+  IndianRupee,
+  ListOrdered,
+  StickyNote,
+} from 'lucide-react';
+import Link from 'next/link';
 
-const Footer = () => {
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTrigger,
+} from '@/components/ui/drawer';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
+
+const BottomNavBar = () => {
   return (
-    <footer className='bg-black p-4 text-white py-8'>
-      <div className='container mx-auto flex flex-col items-center'>
-        <h2 className='text-2xl font-bold mb-4'>Stay Connected</h2>
-        
-        <div className='flex space-x-4 mb-4'>
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className='hover:text-purple-500 text-lg'>
-            <FaFacebookF />
-          </a>
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className='hover:text-purple-500 text-lg'>
-            <FaTwitter />
-          </a>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className='hover:text-purple-500 text-lg'>
-            <FaInstagram />
-          </a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className='hover:text-purple-500 text-lg'>
-            <FaLinkedin />
-          </a>
-        </div>
-
-        <form className='flex flex-col items-center w-full max-w-md mb-6'>
-          <input 
-            type='email' 
-            placeholder='Subscribe to our newsletter' 
-            className='p-2 rounded-lg w-full border border-gray-700 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 mb-2'
-            required 
-          />
-          <button className='bg-purple-600 text-white rounded-lg px-4 py-2 hover:bg-purple-700 transition duration-300 w-full'>
-            Subscribe
+    <>
+      {/* Floating Add Expense Drawer */}
+      <Drawer direction="right">
+        <DrawerTrigger asChild>
+          <button className="fixed bottom-24 right-4 transform -translate-x-1/2 z-50 shadow-lg animate-fab-glow bg-green-900 hover:bg-green-600 transition text-white border border-white rounded-[16px] w-16 h-16 flex items-center justify-center">
+            <Plus className="w-8 h-8" />
           </button>
-        </form>
+        </DrawerTrigger>
 
-        <div className='flex flex-col md:flex-row md:space-x-4 mb-4 w-full justify-center'>
-          <a href="/about" className='hover:underline mb-2 md:mb-0'>About Us</a>
-          <a href="/services" className='hover:underline mb-2 md:mb-0'>Services</a>
-          <a href="/contact" className='hover:underline mb-2 md:mb-0'>Contact</a>
-          <a href="/privacy" className='hover:underline mb-2 md:mb-0'>Privacy Policy</a>
+        <DrawerContent className="h-full w-full sm:max-w-sm ml-auto bg-white rounded-l-xl p-4 flex flex-col">
+          <DrawerHeader className="text-left">
+            <DrawerTitle className="text-2xl font-extrabold text-green-800">
+              💸 Add Expense
+            </DrawerTitle>
+            <DrawerDescription className="text-gray-500 text-sm">
+              Fill in the fields below to track your spending.
+            </DrawerDescription>
+          </DrawerHeader>
+
+          <div className="flex-1 mt-4 px-2 space-y-6">
+            {/* Amount Input */}
+            <div className="relative">
+              <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 text-green-600 w-5 h-5" />
+              <Input
+                type="number"
+                placeholder="Enter amount (₹)"
+                className="pl-10 border-green-300 focus:border-green-600"
+              />
+            </div>
+
+            {/* Category Dropdown */}
+            <div className="relative">
+              <ListOrdered className="absolute left-3 top-1/2 -translate-y-1/2 text-green-600 w-5 h-5" />
+              <Select>
+                <SelectTrigger className="pl-10 border-green-300 focus:border-green-600">
+                  <SelectValue placeholder="🍽️ Choose Category" />
+                </SelectTrigger>
+                <SelectContent className="bg-white">
+                  <SelectItem value="food">🍔 Food</SelectItem>
+                  <SelectItem value="travel">✈️ Travel</SelectItem>
+                  <SelectItem value="shopping">🛍️ Shopping</SelectItem>
+                  <SelectItem value="utilities">💡 Utilities</SelectItem>
+                  <SelectItem value="other">🧾 Others</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Description Field */}
+            <div className="relative">
+              <StickyNote className="absolute left-3 top-3 text-green-600 w-5 h-5" />
+              <Textarea
+                placeholder="📝 Add a description..."
+                className="pl-10 pt-2 border-green-300 focus:border-green-600"
+              />
+            </div>
+          </div>
+
+          {/* Footer Buttons */}
+          <DrawerFooter className="mt-6">
+            <Button className="w-full bg-green-700 hover:bg-green-600 text-white font-semibold">
+               Add Expense
+            </Button>
+            <DrawerClose asChild>
+              <Button
+                variant="outline"
+                className="w-full text-green-800 border-green-300"
+              >
+                 Cancel
+              </Button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+
+      {/* Bottom Navigation Bar */}
+      <nav className="fixed bottom-0 inset-x-0 bg-green-900 text-white border-t border-green-700 z-40 md:hidden h-20">
+        <div className="flex justify-around items-center h-full px-4">
+          <Link
+            href="/"
+            className="flex flex-col items-center text-white hover:text-yellow-400"
+          >
+            <Home className="w-6 h-6" />
+            <span className="text-xs mt-1"> Home</span>
+          </Link>
+
+          <Link
+            href="/expenses"
+            className="flex flex-col items-center text-white hover:text-yellow-400"
+          >
+            <LineChart className="w-6 h-6" />
+            <span className="text-xs mt-1"> Expenses</span>
+          </Link>
+
+         
+          <Link
+            href="/bills"
+            className="flex flex-col items-center text-white hover:text-yellow-400"
+          >
+            <ReceiptText className="w-6 h-6" />
+            <span className="text-xs mt-1"> Bills</span>
+          </Link>
+
+          <Link
+            href="/profile"
+            className="flex flex-col items-center text-white hover:text-yellow-400"
+          >
+            <User className="w-6 h-6" />
+            <span className="text-xs mt-1"> Profile</span>
+          </Link>
         </div>
-
-        <p className='text-sm text-center'>&copy; {new Date().getFullYear()} Roamio. All rights reserved.</p>
-      </div>
-    </footer>
+      </nav>
+    </>
   );
-}
+};
 
-export default Footer;
+export default BottomNavBar;

@@ -1,41 +1,127 @@
 "use client"
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
-import Lottie from 'lottie-react';
 
-const CarAnimation = require("../../../public/animation/cars.json"); 
+import { LineChart, PieChart } from 'lucide-react';
+import Link from "next/link";
+import { Pie, LineChart as ReLineChart, Line, Tooltip, ResponsiveContainer, Cell, PieChart as RePieChart, XAxis } from 'recharts';
+import { Card, CardContent } from '@/components/ui/card';
 
-const Page = () => {
+const lineData = [
+  { name: 'Mon', amount: 220 },
+  { name: 'Tue', amount: 180 },
+  { name: 'Wed', amount: 200 },
+  { name: 'Thu', amount: 260 },
+  { name: 'Fri', amount: 310 },
+  { name: 'Sat', amount: 400 },
+  { name: 'Sun', amount: 450 },
 
-    const router = useRouter()
+  { name: 'Mon', amount: 190 },
+  { name: 'Tue', amount: 210 },
+  { name: 'Wed', amount: 170 },
+  { name: 'Thu', amount: 240 },
+  { name: 'Fri', amount: 290 },
+  { name: 'Sat', amount: 370 },
+  { name: 'Sun', amount: 420 },
 
-    const handleClick =()=>{
-        router.push("/Places")
-    }
+  { name: 'Mon', amount: 200 },
+  { name: 'Tue', amount: 195 },
+  { name: 'Wed', amount: 180 },
+  { name: 'Thu', amount: 230 },
+  { name: 'Fri', amount: 305 },
+  { name: 'Sat', amount: 390 },
+  { name: 'Sun', amount: 460 },
+
+  { name: 'Mon', amount: 210 },
+  { name: 'Tue', amount: 170 },
+  { name: 'Wed', amount: 160 },
+  { name: 'Thu', amount: 250 },
+  { name: 'Fri', amount: 280 },
+  { name: 'Sat', amount: 410 },
+  { name: 'Sun', amount: 430 },
+];
+
+
+const pieData = [
+  { name: 'Food', value: 400 },
+  { name: 'Travel', value: 300 },
+  { name: 'Shopping', value: 300 },
+  { name: 'Entertainment', value: 200 },
+];
+
+const COLORS = ['#10B981', '#6366F1', '#F59E0B', '#EF4444'];
+
+const DashboardPage = () => {
   return (
-    <div className='bg-white flex flex-col md:flex-row  justify-around items-center md:min-h-screen h-[90vh]'>
-      <div className='flex flex-col max-w-[600px] p-6 '>
-        <h1 className='text-3xl lg:text-5xl text-purple-500 font-serif font-semibold'>
-          Connect, Rent & Ride
-        </h1>
-        <p className='mt-4 text-sm  md:text-xl text-gray-500 md:font-bold lg:leading-snug'>
-          Simply choose your vehicle, select the rental duration, and hit the road! 
-          Our easy booking process ensures a hassle-free experience.
-        </p>
-        <button onClick={handleClick} className='md:block hidden bg-black font-semibold w-[200px] rounded-lg text-white p-4 hover:bg-purple-600 hover:transition-all duration-300 ease-in-out mt-4'>
-          Book Now
-        </button>
-        <button onClick={handleClick} className='md:hidden bg-black flex items-center justify-center w-full  text-white p-2 mt-12'>
-          <span className='mr-2 font-semibold'>Book Now</span>
-          <Lottie animationData={CarAnimation} loop={true} className="w-[40px]" />
-        </button>
+    <div className="p-6 pb-[120px] md:p-8 space-y-6">
+      <h1 className="text-2xl md:text-4xl font-bold text-center text-green-700">MoneyMate Dashboard</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Line Chart */}
+        <Card className="rounded-2xl shadow-md">
+          <CardContent className="p-4">
+            <h2 className="text-lg font-semibold mb-2 flex items-center gap-2 text-gray-700">
+              <LineChart className="w-5 h-5 text-green-500" /> Monthly Expenses
+            </h2>
+            <ResponsiveContainer width="100%" height={200}>
+              <ReLineChart data={lineData}>
+                <Line type="monotone" dataKey="amount" stroke="#10B981" strokeWidth={2} />
+                <XAxis dataKey="name" stroke="#888888" className='hidden'/>
+                <Tooltip />
+              </ReLineChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
 
-        
+        {/* Pie Chart */}
+        <Card className="rounded-2xl shadow-md">
+          <CardContent className="p-4">
+            <h2 className="text-lg font-semibold mb-2 flex items-center gap-2 text-gray-700">
+              <PieChart className="w-5 h-5 text-purple-500" /> Category Breakdown
+            </h2>
+            <ResponsiveContainer width="100%" height={200}>
+              <RePieChart>
+                <Pie
+                  data={pieData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={60}
+                  label
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </RePieChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
       </div>
-      <Lottie animationData={CarAnimation} loop={true} className="hidden md:block md:w-96 mt-6" /> 
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <Card className="p-4 rounded-xl text-center shadow-md">
+          <h3 className="text-sm font-medium text-gray-500">Total Spent</h3>
+          <p className="text-lg font-bold text-gray-900">₹4,200</p>
+        </Card>
+        <Card className="p-4 rounded-xl text-center shadow-md">
+          <h3 className="text-sm font-medium text-gray-500">This Week</h3>
+          <p className="text-lg font-bold text-gray-900">₹2,150</p>
+        </Card>
+        <Card className="p-4 rounded-xl text-center shadow-md">
+          <h3 className="text-sm font-medium text-gray-500">This Month</h3>
+          <p className="text-lg font-bold text-gray-900">₹7,300</p>
+        </Card>
+        <Card className="p-4 rounded-xl text-center shadow-md">
+          <h3 className="text-sm font-medium text-gray-500">Categories</h3>
+          <p className="text-lg font-bold text-gray-900">4</p>
+        </Card>
+      </div>
+
+      
     </div>
   );
-}
+};
 
-export default Page;
+export default DashboardPage;

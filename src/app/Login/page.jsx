@@ -1,132 +1,205 @@
-"use client";
+'use client';
 
 import React, { useState } from 'react';
-import { Button } from '../../components/ui/button';
-import { FaGithub } from 'react-icons/fa';
-import { signIn} from "next-auth/react";
+import Lottie from 'lottie-react';
 import axios from 'axios';
-import {  useRouter } from 'next/navigation';
-import Cookie from "js-cookie"
+import { useRouter } from 'next/navigation';
+import Cookie from 'js-cookie';
+import Image from 'next/image';
 
-const LoginForm = () => {
-  const [email, setEmail] = useState('');
+
+import { Toaster }  from '../../../components/ui/toaster';
+import { useToast } from '@/hooks/use-toast';
+import { Toast } from '@/components/ui/toast';
+
+
+ 
+
+const moneyAnimation = require("../../../public/animation/login.json");
+
+export default function LoginForm() {
+  const [step, setStep] = useState('email');
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
-  const [step, setStep] = useState('email'); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const router = useRouter();
+  const { toast } = useToast();
 
-  const router = useRouter()
-
-  const handleSendOtp = async (e) => {
+  const handleSendOtp = async e => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    
     try {
-      const response = await axios.post("/api/user", {action :"sendOtp", email, name });
-      console.log('OTP Response:', response.data);
+      await axios.post('/api/user', { action: 'sendOtp', name, email });
+      toast({
+        title: 'OTP Sent',
+       variant:"default"
+      });
       setStep('otp');
-    } catch (error) {
-      setError(error.response?.data?.message || 'Failed to send OTP.');
+    } catch (err) {
+      toast({
+        title: 'Failed to Send OTP',
+        variant:"error"
+       
+      });
+           
     } finally {
       setLoading(false);
     }
   };
 
-  const handleOtpSubmit = async (e) => {
+  const handleVerifyOtp = async e => {
     e.preventDefault();
     setLoading(true);
     setError('');
-
-    try{
-        const response = await axios.post("/api/user", {action :"verifyOtp", otp,email})
-        console.log('OTP Response:', response.data);
-        if(response.status === 200){
-            Cookie.set("Roamio",response.data.Token)
-            router.push('/');
-        }
+    try {
+      const res = await axios.post('/api/user', { action: 'verifyOtp', otp, email });
+      Cookie.set('Roamio', res.data.Token);
+      toast({
+        title: 'Logged In',
+      
+         variant:"default"
+      });
+      router.push('/');
+    } catch (err) {
+      toast({
+        title: 'OTP Verification Failed',
+       
+        variant: 'error',
+      });
+      
+     
+    } finally {
+      setLoading(false);
     }
-    catch(e){
-        setError(e.response?.data?.message || 'Failed to verify OTP.');
-    }
-    finally{
-        setLoading(false);
-        }
-    
-   
   };
 
-  const handleGoogleSignIn = () => {
-    const secretToken = process.env.NEXT_PUBLIC_SECRET_KEY
-    console.log(secretToken)
-    Cookie.set("Roamio",secretToken)
-    signIn('github');
-  };
 
   return (
-    <div className="max-w-md mx-auto p-6 min-h-screen rounded-lg shadow-lg bg-white mt-10">
-      <h1 className="text-4xl font-bold text-center text-purple-600 mb-4">Roamio</h1>
-      <h2 className="text-2xl font-semibold text-center mb-2">Welcome Back!</h2>
-      <p className="text-center text-gray-600 mb-6">
-        Please log in to access your account and our amazing features!
-      </p>
-      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-      {step === 'email' && (
-        <form onSubmit={handleSendOtp} className="flex flex-col">
-          <input
-            id="name"
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            className="p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-200"
+    <>
+    <Toaster />
+    <div className="flex flex-col md:hidden min-h-screen bg-white p-6 space-y-6">
+      
+        {/* Logo */}
+        <div className="flex ">
+          <Image
+            src="/pics/logomaker.png"
+            alt="Money Mate Logo"
+            width={100}
+            height={100}
+            priority
           />
-          <input
-            id="email"
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-200"
-          />
-          <Button
-            type="submit"
-            className="p-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-200"
-            disabled={loading}
-          >
-            {loading ? 'Sending...' : 'Send OTP'}
-          </Button>
-        </form>
-      )}
-      {step === 'otp' && (
-        <form onSubmit={handleOtpSubmit} className="flex flex-col">
-          <input
-            id="otp"
-            type="text"
-            placeholder="Enter OTP"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            required
-            className="p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-200"
-          />
-          <Button
-            type="submit"
-            className="p-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition duration-200"
-            disabled={loading}
-          >
-            {loading ? 'Verifying...' : 'Verify OTP'}
-          </Button>
-        </form>
-      )}
-      <hr className='bg-purple-500 h-[3px] w-full mt-4 rounded-full'/>
-      <Button onClick={handleGoogleSignIn} className="flex p-4 mt-4 items-center bg-black text-white rounded-lg w-full">
-        <FaGithub className="mr-2 text-green-500" /> Sign in With Github
-      </Button>
-    </div>
-  );
-};
+        </div>
 
-export default LoginForm;
+        
+
+        {/* Lottie */}
+       
+
+        {/* Header */}
+        <div className="text-center space-y-2">
+          <h1 className="text-2xl flex gap-3 justify-center items-center font-extrabold text-[#B87333]">
+            👋 Welcome Mate!  <div className=" ">
+          <Lottie
+            animationData={moneyAnimation}
+            loop
+            className="w-[80px] h-[80px]"
+          />
+        </div>
+          </h1>
+         
+        
+        </div>
+
+        {/* Error */}
+        {error && (
+          <div className="text-red-600 text-center font-medium">{error}</div>
+        )}
+
+        {/* Form */}
+        <div className="w-full max-w-md mx-auto border  border-green-900 p-6 rounded-[16px] shadow-lg">
+        <p className="text-gray-600 my-2 font-semibold  text-sm">
+            {step === 'email'
+              ? "Let's get you signed in to Money Mate"
+              : `We've sent a 6-digit code to ${email}`}
+          </p>
+          {step === 'email' ? (
+            <form onSubmit={handleSendOtp} className="space-y-4">
+              {/* Name */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#B87333]"
+                />
+              </div>
+              {/* Email */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#B87333]"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-3 bg-green-900 text-white rounded-lg font-semibold hover:bg-[#196c19] disabled:opacity-50 transition"
+              >
+                {loading ? 'Sending OTP…' : 'Send OTP 🔐'}
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleVerifyOtp} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  OTP Code
+                </label>
+                <input
+                  type="text"
+                  placeholder="123456"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  required
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#B87333]"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-3 bg-[#228B22] text-white rounded-lg font-semibold hover:bg-[#196c19] disabled:opacity-50 transition"
+              >
+                {loading ? 'Verifying…' : 'Verify & Login ✅'}
+              </button>
+            </form>
+          )}
+
+          <div className="text-center text-sm text-gray-600 mt-4">
+            Having trouble?{' '}
+            <a
+              href="mailto:kanthurireddysai@gmail.com"
+              className="text-[#B87333] underline"
+            >
+              Contact support
+            </a>
+          </div>
+        </div>
+       
+      </div>
+      </>
+  );
+}
