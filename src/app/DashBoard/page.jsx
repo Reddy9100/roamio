@@ -21,6 +21,7 @@ import {
   XAxis,
 } from 'recharts'
 import { Card, CardContent } from '@/components/ui/card'
+import { useSearchParams } from 'next/navigation'
 
 const lineData = [
   { name: 'Mon', amount: 220 },
@@ -94,51 +95,27 @@ const DashboardPage = () => {
   const [showSplash, setShowSplash] = useState(true);
 
  
-  const [name, setName] = useState('');
 
-  useEffect(() => {
-    const userName = Cookie.get('userName');
-    if (userName) {
-      setName(userName);
-    }
-  }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setShowSplash(false), 100); // 4 seconds
-    return () => clearTimeout(timer);
-  }, [name]);
+  const params = useSearchParams()
+    const name  = params.get('name')  || ''
+    const email = params.get('email') || ''
 
-  useEffect(() => {
-    const splashShown = sessionStorage.getItem('splashShown');
-    if (!splashShown) {
-      setShowSplash(true);
-      sessionStorage.setItem('splashShown', 'true');
-      setTimeout(() => {
-        setShowSplash(false);
-      }, 4000);
-    } else {
-      setShowSplash(false);
-    }
-  }, []);
+
+
+  
+
+
+
+
+ 
 
 
 
   return (
 
 <>
-    {showSplash ? (
-      <div className='flex h-full flex-col items-center  gap-1'>
-     
-      <Lottie
-                 animationData={moneyAnimation}
-                 loop
-                 className="w-[full] my-auto mt-[100px] ml-[20px] h-[full]"
-               />
-
-         
-
-   </div>
-    ) : (
+    
       <div className="p-6 pb-[120px] md:p-8 space-y-6">
 
         
@@ -265,7 +242,7 @@ const DashboardPage = () => {
      
       
     </div>
-    )}
+    
 
 </>
    

@@ -1,6 +1,6 @@
 "use client"
 
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '../../components/ui/button'
 import React, { useEffect, useState } from 'react'
 import Lottie from 'lottie-react';
@@ -9,14 +9,16 @@ import Image from 'next/image';
 
 const NavBar = () => {
   const router = useRouter()
-  const [name, setName] = useState('');
 
-  useEffect(() => {
-    const userName = Cookie.get('userName');
-    if (userName) {
-      setName(userName);
-    }
-  }, []);
+
+ 
+
+  const params = useSearchParams()
+  const name  = params.get('name')  || ''
+  const email = params.get('email') || ''
+
+  const moneyAnimation = require("../../../public/animation/hello.json");
+
 
   const handleClick = () => {
     router.push('/Login');
@@ -39,15 +41,31 @@ const NavBar = () => {
         </div>
 
         {/* User Name */}
-        <p
-          className="text-white text-2xl sm:text-lg font-semibold tracking-wide px-4 py-1 "
+        <div>
+          
+        <div className='flex h-[60px] items-center  justify-center'>
+     
+     <Lottie
+                animationData={moneyAnimation}
+                loop
+                className="h-[90px] w-[100px]"
+              />
+              <p
+          className="text-white text-3xl sm:text-3xl font-semibold tracking-wide pr-4 py-1 "
           style={{
             fontFamily: `'Comic Neue', cursive`,
            
           }}
         >
-          👋 {name }
+              {name }
         </p>
+
+        
+
+  </div>
+        
+        </div>
+       
       </nav>
     </div>
   );

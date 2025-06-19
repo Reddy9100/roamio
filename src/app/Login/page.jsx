@@ -37,8 +37,11 @@ export default function LoginForm() {
         title: 'OTP Sent',
        variant:"default"
       });
-      Cookie.set('userName', name);
-      Cookie.set('userEmail', email);
+      Cookie.set('userName', name,   { expires: 2 })
+Cookie.set('userEmail', email, { expires: 2 })
+
+
+
       setStep('otp');
     } catch (err) {
       toast({
@@ -66,7 +69,9 @@ export default function LoginForm() {
       
          variant:"default"
       });
-      router.push('/');
+      const query = new URLSearchParams({ name, email }).toString()
+router.push(`/?${query}`)
+      
     } catch (err) {
       toast({
         title: 'OTP Verification Failed',
@@ -83,7 +88,7 @@ export default function LoginForm() {
 
   return (
     <>
-    <Toaster />
+   
     <div className="flex flex-col md:hidden min-h-screen bg-white p-6 space-y-6">
       
         {/* Logo */}

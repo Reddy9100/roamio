@@ -1,20 +1,33 @@
-// components/ProtectedRoute.js
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Cookie from "js-cookie";
+// components/ProtectedRoute.tsx
+'use client'
 
-const ProtectedRoute = ({ children }) => {
-  const router = useRouter();
+import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Cookie from 'js-cookie'
 
-  const roamioToken = Cookie.get("Roamio");
+
+
+export default function ProtectedRoute({ children }) {
+  const router = useRouter()
+  const [hasToken, setHasToken] = useState(null)
 
   useEffect(() => {
-    if (!roamioToken) {
-      router.push("/Login");
+    const token = Cookie.get('Roamio')
+    if (!token) {
+      // no token → immediately redirect
+      router.replace('/Login')
+      setHasToken(false)
+    } else {
+      // valid token → render children
+      setHasToken(true)
     }
-  }, [roamioToken, router]);
+  }, [router])
 
-  return <div className="pt-20">{children}</div>;
-};
+  // while we haven’t decided, or if no token, render nothing
+  if (hasToken === null && hasToken === false) {
+    return null
+  }
 
-export default ProtectedRoute;
+  // safe to show protected content
+  return <div className="pt-20">{children}</div>
+}

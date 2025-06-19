@@ -9,6 +9,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { CarsProvider } from '../context/cars'; // Adjust the import path as necessary
 import { Inter, Inter_Tight, Roboto_Mono, } from 'next/font/google';
 import BottomNavBar from './components/Footer';
+import { Toaster } from '@/components/ui/toaster';
 
 
 const inter = Inter_Tight({
@@ -38,6 +39,7 @@ const RootLayout = ({ children }) => {
       </head>
       <body>
         <CarsProvider>
+          <Toaster/>
           
           {!isLoginPage && <NavBar />} 
           <ProtectedRoute>{children}</ProtectedRoute> 
