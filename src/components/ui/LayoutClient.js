@@ -12,7 +12,7 @@ export default function LayoutClient({ children }) {
   return (
     <>
       {!isLoginPage && <NavBar />}
-      {children}
+      <div className='pt-[100px]'>{children}</div>
       {!isLoginPage && <BottomNavBar />}
     </>
   );
