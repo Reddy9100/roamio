@@ -1,12 +1,12 @@
-import React from "react";
-import DashBoard from "./DashBoard/page";
+// page.jsx
+import { Suspense } from 'react';
 
-const Page = () => {
+import DashboardPage from './DashBoard/page';
+
+export default function Page() {
   return (
-    <div>
-      <DashBoard />
-    </div>
+    <Suspense fallback={<div>Loading dashboard...</div>}>
+      <DashboardPage />
+    </Suspense>
   );
-};
-
-export default Page;
+}
