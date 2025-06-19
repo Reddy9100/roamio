@@ -1,11 +1,13 @@
 "use client"
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { LineChart, PieChart } from 'lucide-react';
 import Link from "next/link";
 import { Pie, LineChart as ReLineChart, Line, Tooltip, ResponsiveContainer, Cell, PieChart as RePieChart, XAxis } from 'recharts';
 import { Card, CardContent } from '@/components/ui/card';
+import Lottie from 'lottie-react';
+import Cookie from 'js-cookie';
 
 const lineData = [
   { name: 'Mon', amount: 220 },
@@ -49,12 +51,66 @@ const pieData = [
   { name: 'Entertainment', value: 200 },
 ];
 
+const moneyAnimation = require("../../../public/animation/hello.json");
+
+
+
 const COLORS = ['#10B981', '#6366F1', '#F59E0B', '#EF4444'];
 
+
+
 const DashboardPage = () => {
+
+  const [showSplash, setShowSplash] = useState(true);
+
+ 
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    const userName = Cookie.get('userName');
+    if (userName) {
+      setName(userName);
+    }
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSplash(false), 100); // 4 seconds
+    return () => clearTimeout(timer);
+  }, [name]);
+
+  useEffect(() => {
+    const splashShown = sessionStorage.getItem('splashShown');
+    if (!splashShown) {
+      setShowSplash(true);
+      sessionStorage.setItem('splashShown', 'true');
+      setTimeout(() => {
+        setShowSplash(false);
+      }, 4000);
+    } else {
+      setShowSplash(false);
+    }
+  }, []);
+
+
+
   return (
-    <div className="p-6 pb-[120px] md:p-8 space-y-6">
-      <h1 className="text-2xl md:text-4xl font-bold text-left text-green-700">MoneyMate Dashboard</h1>
+
+<>
+    {showSplash ? (
+      <div className='flex h-full flex-col items-center  gap-1'>
+     
+      <Lottie
+                 animationData={moneyAnimation}
+                 loop
+                 className="w-[full] my-auto mt-[100px] ml-[20px] h-[full]"
+               />
+
+         
+
+   </div>
+    ) : (
+      <div className="p-6 pb-[120px] md:p-8 space-y-6">
+     
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card className="p-4 rounded-xl text-center shadow-md">
@@ -123,6 +179,10 @@ const DashboardPage = () => {
      
       
     </div>
+    )}
+
+</>
+   
   );
 };
 

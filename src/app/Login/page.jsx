@@ -37,6 +37,8 @@ export default function LoginForm() {
         title: 'OTP Sent',
        variant:"default"
       });
+      Cookie.set('userName', name);
+      Cookie.set('userEmail', email);
       setStep('otp');
     } catch (err) {
       toast({
@@ -56,7 +58,9 @@ export default function LoginForm() {
     setError('');
     try {
       const res = await axios.post('/api/user', { action: 'verifyOtp', otp, email });
-      Cookie.set('Roamio', res.data.Token);
+      Cookie.set('Roamio', res.data.Token, { expires: 2 });
+
+    
       toast({
         title: 'Logged In',
       
@@ -92,6 +96,8 @@ export default function LoginForm() {
             priority
           />
         </div>
+
+        
 
         
 

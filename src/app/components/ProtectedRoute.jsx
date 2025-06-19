@@ -14,7 +14,7 @@ const ProtectedRoute = ({ children }) => {
     }
   }, [roamioToken, router]);
 
-  return <>{children}</>;
+  return <div className="pt-20">{children}</div>;
 };
 
 export default ProtectedRoute;
