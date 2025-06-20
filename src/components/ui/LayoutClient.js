@@ -2,6 +2,7 @@
 
 import BottomNavBar from '@/src/app/components/Footer';
 import NavBar from '@/src/app/components/NavBar';
+import ProtectedRoute from '@/src/app/components/ProtectedRoute';
 import { usePathname } from 'next/navigation';
 
 
@@ -12,7 +13,7 @@ export default function LayoutClient({ children }) {
   return (
     <>
       {!isLoginPage && <NavBar />}
-      <div className='pt-[100px]'>{children}</div>
+      <ProtectedRoute><div className='pt-[100px]'>{children}</div></ProtectedRoute>
       {!isLoginPage && <BottomNavBar />}
     </>
   );
