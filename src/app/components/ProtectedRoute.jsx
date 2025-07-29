@@ -29,5 +29,5 @@ export default function ProtectedRoute({ children }) {
   }
 
   // safe to show protected content
-  return <div className="pt-20">{children}</div>
+  return <div className="">{children}</div>
 }

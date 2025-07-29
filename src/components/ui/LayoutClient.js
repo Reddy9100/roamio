@@ -13,7 +13,7 @@ export default function LayoutClient({ children }) {
   return (
     <>
       {!isLoginPage && <NavBar />}
-      <ProtectedRoute><div className='pt-[100px]'>{children}</div></ProtectedRoute>
+      <ProtectedRoute><div className=''>{children}</div></ProtectedRoute>
       {!isLoginPage && <BottomNavBar />}
     </>
   );
